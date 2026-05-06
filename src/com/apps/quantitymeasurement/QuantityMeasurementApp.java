@@ -2,7 +2,7 @@ package com.apps.quantitymeasurement;
 
 public class QuantityMeasurementApp {
 
-    // Inner class to represent Feet
+    // FEET CLASS
     public static class Feet {
         private final double value;
 
@@ -10,31 +10,70 @@ public class QuantityMeasurementApp {
             this.value = value;
         }
 
+        public double toInches() {
+            return this.value * 12;
+        }
+
         @Override
         public boolean equals(Object obj) {
 
-            // 1. Same reference
             if (this == obj) return true;
-
-            // 2. Null check
             if (obj == null) return false;
 
-            // 3. Type check
-            if (getClass() != obj.getClass()) return false;
+            // Compare with Feet
+            if (obj instanceof Feet) {
+                Feet other = (Feet) obj;
+                return Double.compare(this.value, other.value) == 0;
+            }
 
-            // 4. Cast
-            Feet other = (Feet) obj;
+            // Compare with Inches
+            if (obj instanceof Inches) {
+                Inches other = (Inches) obj;
+                return Double.compare(this.toInches(), other.value) == 0;
+            }
 
-            // 5. Compare values
-            return Double.compare(this.value, other.value) == 0;
+            return false;
         }
     }
 
-    // Main method (just for demo)
-    public static void main(String[] args) {
-        Feet f1 = new Feet(1.0);
-        Feet f2 = new Feet(1.0);
+    // INCHES CLASS (NEW)
+    public static class Inches {
+        private final double value;
 
-        System.out.println("Are equal? " + f1.equals(f2));
+        public Inches(double value) {
+            this.value = value;
+        }
+
+        public double toFeet() {
+            return this.value / 12;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+
+            if (this == obj) return true;
+            if (obj == null) return false;
+
+            // Compare with Inches
+            if (obj instanceof Inches) {
+                Inches other = (Inches) obj;
+                return Double.compare(this.value, other.value) == 0;
+            }
+
+            // Compare with Feet
+            if (obj instanceof Feet) {
+                Feet other = (Feet) obj;
+                return Double.compare(this.value, other.toInches()) == 0;
+            }
+
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Feet f = new Feet(1);
+        Inches i = new Inches(12);
+
+        System.out.println(f.equals(i)); // true
     }
 }
