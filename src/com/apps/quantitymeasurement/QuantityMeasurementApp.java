@@ -165,6 +165,30 @@ public class QuantityMeasurementApp {
 
             return new Length(convertedValue, targetUnit);
         }
+        // ADD TWO LENGTHS
+public Length add(Length other) {
+
+    if (other == null) {
+        throw new IllegalArgumentException("Length cannot be null");
+    }
+
+    // CONVERT BOTH TO BASE UNIT
+    double thisBase =
+            this.convertToBaseUnit();
+
+    double otherBase =
+            other.convertToBaseUnit();
+
+    // ADD
+    double sumBase =
+            thisBase + otherBase;
+
+    // CONVERT BACK TO FIRST OPERAND UNIT
+    double result =
+            sumBase / this.unit.getConversionFactor();
+
+    return new Length(result, this.unit);
+}
 
         // EQUALS METHOD
         @Override
@@ -238,6 +262,22 @@ public class QuantityMeasurementApp {
         );
     }
 
+    // DEMONSTRATE ADDITION
+public static void demonstrateLengthAddition(
+        Length length1,
+        Length length2
+) {
+
+    Length result = length1.add(length2);
+
+    System.out.println(
+            length1 + " + "
+                    + length2
+                    + " = "
+                    + result
+    );
+}
+
     // MAIN METHOD
     public static void main(String[] args) {
 
@@ -283,5 +323,44 @@ public class QuantityMeasurementApp {
                 yard,
                 LengthUnit.INCHES
         );
+
+        // FEET + INCHES
+Length feet =
+        new Length(1.0, LengthUnit.FEET);
+
+Length inches =
+        new Length(12.0, LengthUnit.INCHES);
+
+demonstrateLengthAddition(feet, inches);
+
+
+// INCHES + FEET
+Length inchValue =
+        new Length(12.0, LengthUnit.INCHES);
+
+Length feetValue =
+        new Length(1.0, LengthUnit.FEET);
+
+demonstrateLengthAddition(inchValue, feetValue);
+
+
+// YARDS + FEET
+Length yardLength =
+        new Length(1.0, LengthUnit.YARDS);
+
+Length feet2 =
+        new Length(3.0, LengthUnit.FEET);
+
+demonstrateLengthAddition(yardLength, feet2);
+
+
+// CM + INCH
+Length cm =
+        new Length(2.54, LengthUnit.CENTIMETERS);
+
+Length inch =
+        new Length(1.0, LengthUnit.INCHES);
+
+demonstrateLengthAddition(cm, inch);
     }
 }
