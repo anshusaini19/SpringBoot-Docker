@@ -1,85 +1,3 @@
-/*package com.apps.quantitymeasurement;
-
-public class QuantityMeasurementApp {
-
-    // ENUM FOR LENGTH UNITS
-    public enum LengthUnit {
-
-        FEET(12.0),
-        INCHES(1.0);
-
-        private final double conversionFactor;
-
-        LengthUnit(double conversionFactor) {
-            this.conversionFactor = conversionFactor;
-        }
-
-        public double getConversionFactor() {
-            return conversionFactor;
-        }
-    }
-
-    // GENERIC LENGTH CLASS
-    public static class Length {
-
-        private final double value;
-        private final LengthUnit unit;
-
-        public Length(double value, LengthUnit unit) {
-
-            if (unit == null) {
-                throw new IllegalArgumentException("Unit cannot be null");
-            }
-
-            this.value = value;
-            this.unit = unit;
-        }
-
-        // CONVERT TO BASE UNIT (INCHES)
-        private double toBaseUnit() {
-            return value * unit.getConversionFactor();
-        }
-
-        // EQUALS METHOD
-        @Override
-        public boolean equals(Object obj) {
-
-            // SAME REFERENCE
-            if (this == obj) {
-                return true;
-            }
-
-            // NULL CHECK
-            if (obj == null) {
-                return false;
-            }
-
-            // TYPE CHECK
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-
-            // TYPE CASTING
-            Length other = (Length) obj;
-
-            // VALUE COMPARISON
-            return Double.compare(
-                    this.toBaseUnit(),
-                    other.toBaseUnit()
-            ) == 0;
-        }
-    }
-
-    // MAIN METHOD
-    public static void main(String[] args) {
-
-        Length length1 = new Length(1.0, LengthUnit.FEET);
-        Length length2 = new Length(12.0, LengthUnit.INCHES);
-
-        System.out.println(length1.equals(length2)); // true
-    }
-}*/
-
 package com.apps.quantitymeasurement;
 
 public class QuantityMeasurementApp {
@@ -116,18 +34,22 @@ public class QuantityMeasurementApp {
         public Length(double value, LengthUnit unit) {
 
             if (unit == null) {
-                throw new IllegalArgumentException("Unit cannot be null");
+                throw new IllegalArgumentException(
+                        "Unit cannot be null"
+                );
             }
 
             if (!Double.isFinite(value)) {
-                throw new IllegalArgumentException("Value must be finite");
+                throw new IllegalArgumentException(
+                        "Value must be finite"
+                );
             }
 
             this.value = value;
             this.unit = unit;
         }
 
-        // CONVERT TO BASE UNIT (INCHES)
+        // CONVERT TO BASE UNIT
         private double convertToBaseUnit() {
             return value * unit.getConversionFactor();
         }
@@ -140,55 +62,112 @@ public class QuantityMeasurementApp {
         ) {
 
             if (source == null || target == null) {
-                throw new IllegalArgumentException("Units cannot be null");
+                throw new IllegalArgumentException(
+                        "Units cannot be null"
+                );
             }
 
             if (!Double.isFinite(value)) {
-                throw new IllegalArgumentException("Value must be finite");
+                throw new IllegalArgumentException(
+                        "Value must be finite"
+                );
             }
 
             // CONVERT TO BASE UNIT
-            double baseValue = value * source.getConversionFactor();
+            double baseValue =
+                    value *
+                    source.getConversionFactor();
 
             // CONVERT TO TARGET UNIT
-            return baseValue / target.getConversionFactor();
+            return baseValue /
+                    target.getConversionFactor();
         }
 
         // INSTANCE CONVERSION METHOD
-        public Length convertTo(LengthUnit targetUnit) {
+        public Length convertTo(
+                LengthUnit targetUnit
+        ) {
 
-            double convertedValue = convert(
-                    this.value,
-                    this.unit,
+            double convertedValue =
+                    convert(
+                            this.value,
+                            this.unit,
+                            targetUnit
+                    );
+
+            return new Length(
+                    convertedValue,
                     targetUnit
             );
-
-            return new Length(convertedValue, targetUnit);
         }
-        // ADD TWO LENGTHS
-public Length add(Length other) {
 
-    if (other == null) {
-        throw new IllegalArgumentException("Length cannot be null");
-    }
+        // UC6 ADD METHOD
+        public Length add(Length other) {
 
-    // CONVERT BOTH TO BASE UNIT
-    double thisBase =
-            this.convertToBaseUnit();
+            if (other == null) {
+                throw new IllegalArgumentException(
+                        "Length cannot be null"
+                );
+            }
 
-    double otherBase =
-            other.convertToBaseUnit();
+            // RESULT IN FIRST OPERAND UNIT
+            return performAddition(
+                    other,
+                    this.unit
+            );
+        }
 
-    // ADD
-    double sumBase =
-            thisBase + otherBase;
+        // UC7 ADD METHOD
+        public Length add(
+                Length other,
+                LengthUnit targetUnit
+        ) {
 
-    // CONVERT BACK TO FIRST OPERAND UNIT
-    double result =
-            sumBase / this.unit.getConversionFactor();
+            if (other == null) {
+                throw new IllegalArgumentException(
+                        "Length cannot be null"
+                );
+            }
 
-    return new Length(result, this.unit);
-}
+            if (targetUnit == null) {
+                throw new IllegalArgumentException(
+                        "Target unit cannot be null"
+                );
+            }
+
+            return performAddition(
+                    other,
+                    targetUnit
+            );
+        }
+
+        // PRIVATE UTILITY METHOD
+        private Length performAddition(
+                Length other,
+                LengthUnit targetUnit
+        ) {
+
+            // CONVERT BOTH TO BASE UNIT
+            double thisBase =
+                    this.convertToBaseUnit();
+
+            double otherBase =
+                    other.convertToBaseUnit();
+
+            // ADD
+            double sumBase =
+                    thisBase + otherBase;
+
+            // CONVERT TO TARGET UNIT
+            double result =
+                    sumBase /
+                    targetUnit.getConversionFactor();
+
+            return new Length(
+                    result,
+                    targetUnit
+            );
+        }
 
         // EQUALS METHOD
         @Override
@@ -240,12 +219,22 @@ public Length add(Length other) {
             LengthUnit to
     ) {
 
-        double result = Length.convert(value, from, to);
+        double result =
+                Length.convert(
+                        value,
+                        from,
+                        to
+                );
 
         System.out.println(
-                "Convert " + value + " " + from
-                        + " to " + to
-                        + " = " + result
+                "Convert "
+                        + value
+                        + " "
+                        + from
+                        + " to "
+                        + to
+                        + " = "
+                        + result
         );
     }
 
@@ -255,112 +244,148 @@ public Length add(Length other) {
             LengthUnit target
     ) {
 
-        Length converted = length.convertTo(target);
+        Length converted =
+                length.convertTo(target);
 
         System.out.println(
-                "Converted Length = " + converted
+                "Converted Length = "
+                        + converted
         );
     }
 
-    // DEMONSTRATE ADDITION
-public static void demonstrateLengthAddition(
-        Length length1,
-        Length length2
-) {
+    // UC6 ADDITION DEMO
+    public static void demonstrateLengthAddition(
+            Length length1,
+            Length length2
+    ) {
 
-    Length result = length1.add(length2);
+        Length result =
+                length1.add(length2);
 
-    System.out.println(
-            length1 + " + "
-                    + length2
-                    + " = "
-                    + result
-    );
-}
+        System.out.println(
+                length1
+                        + " + "
+                        + length2
+                        + " = "
+                        + result
+        );
+    }
+
+    // UC7 ADDITION DEMO
+    public static void demonstrateLengthAddition(
+            Length length1,
+            Length length2,
+            LengthUnit targetUnit
+    ) {
+
+        Length result =
+                length1.add(
+                        length2,
+                        targetUnit
+                );
+
+        System.out.println(
+                length1
+                        + " + "
+                        + length2
+                        + " = "
+                        + result
+        );
+    }
 
     // MAIN METHOD
     public static void main(String[] args) {
 
-        // FEET TO INCHES
+        // UC5 CONVERSIONS
         demonstrateLengthConversion(
                 1.0,
                 LengthUnit.FEET,
                 LengthUnit.INCHES
         );
 
-        // YARDS TO FEET
         demonstrateLengthConversion(
                 3.0,
                 LengthUnit.YARDS,
                 LengthUnit.FEET
         );
 
-        // INCHES TO YARDS
-        demonstrateLengthConversion(
-                36.0,
-                LengthUnit.INCHES,
+        // UC6 ADDITION
+        Length feet =
+                new Length(
+                        1.0,
+                        LengthUnit.FEET
+                );
+
+        Length inches =
+                new Length(
+                        12.0,
+                        LengthUnit.INCHES
+                );
+
+        demonstrateLengthAddition(
+                feet,
+                inches
+        );
+
+        // UC7 ADDITION WITH TARGET UNIT
+
+        // RESULT IN FEET
+        demonstrateLengthAddition(
+                feet,
+                inches,
+                LengthUnit.FEET
+        );
+
+        // RESULT IN INCHES
+        demonstrateLengthAddition(
+                feet,
+                inches,
+                LengthUnit.INCHES
+        );
+
+        // RESULT IN YARDS
+        demonstrateLengthAddition(
+                feet,
+                inches,
                 LengthUnit.YARDS
         );
 
-        // CM TO INCHES
-        demonstrateLengthConversion(
-                1.0,
-                LengthUnit.CENTIMETERS,
-                LengthUnit.INCHES
-        );
+        // YARDS + FEET
+        Length yard =
+                new Length(
+                        1.0,
+                        LengthUnit.YARDS
+                );
 
-        // ZERO VALUE
-        demonstrateLengthConversion(
-                0.0,
-                LengthUnit.FEET,
-                LengthUnit.INCHES
-        );
+        Length feet2 =
+                new Length(
+                        3.0,
+                        LengthUnit.FEET
+                );
 
-        // INSTANCE METHOD
-        Length yard = new Length(1.0, LengthUnit.YARDS);
-
-        demonstrateLengthConversion(
+        demonstrateLengthAddition(
                 yard,
-                LengthUnit.INCHES
+                feet2,
+                LengthUnit.YARDS
         );
 
-        // FEET + INCHES
-Length feet =
-        new Length(1.0, LengthUnit.FEET);
+        // CM + INCH
+        Length cm =
+                new Length(
+                        2.54,
+                        LengthUnit.CENTIMETERS
+                );
 
-Length inches =
-        new Length(12.0, LengthUnit.INCHES);
+        Length inch =
+                new Length(
+                        1.0,
+                        LengthUnit.INCHES
+                );
 
-demonstrateLengthAddition(feet, inches);
-
-
-// INCHES + FEET
-Length inchValue =
-        new Length(12.0, LengthUnit.INCHES);
-
-Length feetValue =
-        new Length(1.0, LengthUnit.FEET);
-
-demonstrateLengthAddition(inchValue, feetValue);
-
-
-// YARDS + FEET
-Length yardLength =
-        new Length(1.0, LengthUnit.YARDS);
-
-Length feet2 =
-        new Length(3.0, LengthUnit.FEET);
-
-demonstrateLengthAddition(yardLength, feet2);
-
-
-// CM + INCH
-Length cm =
-        new Length(2.54, LengthUnit.CENTIMETERS);
-
-Length inch =
-        new Length(1.0, LengthUnit.INCHES);
-
-demonstrateLengthAddition(cm, inch);
+        demonstrateLengthAddition(
+                cm,
+                inch,
+                LengthUnit.CENTIMETERS
+        );
     }
 }
