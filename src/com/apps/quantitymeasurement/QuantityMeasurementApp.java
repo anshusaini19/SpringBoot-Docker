@@ -2,19 +2,16 @@ package com.apps.quantitymeasurement;
 
 public class QuantityMeasurementApp {
 
-    // DEMONSTRATE EQUALITY
-    public static void demonstrateLengthEquality(
-            Length length1,
-            Length length2
-    ) {
+    // DEMONSTRATE LENGTH EQUALITY
+    public static boolean demonstrateLengthEquality(
+        Length length1,
+        Length length2
+) {
 
-        System.out.println(
-                "Are lengths equal? "
-                        + length1.equals(length2)
-        );
-    }
+    return length1.equals(length2);
+}
 
-    // OVERLOADED METHOD 1
+    // LENGTH CONVERSION METHOD 1
     public static void demonstrateLengthConversion(
             double value,
             LengthUnit from,
@@ -40,7 +37,7 @@ public class QuantityMeasurementApp {
         );
     }
 
-    // OVERLOADED METHOD 2
+    // LENGTH CONVERSION METHOD 2
     public static void demonstrateLengthConversion(
             Length length,
             LengthUnit target
@@ -55,7 +52,7 @@ public class QuantityMeasurementApp {
         );
     }
 
-    // UC6 ADDITION DEMO
+    // UC6 LENGTH ADDITION
     public static void demonstrateLengthAddition(
             Length length1,
             Length length2
@@ -73,7 +70,7 @@ public class QuantityMeasurementApp {
         );
     }
 
-    // UC7 ADDITION DEMO
+    // UC7 LENGTH ADDITION WITH TARGET UNIT
     public static void demonstrateLengthAddition(
             Length length1,
             Length length2,
@@ -95,10 +92,58 @@ public class QuantityMeasurementApp {
         );
     }
 
+    // WEIGHT CONVERSION DEMO
+    public static void demonstrateWeightConversion(
+            double value,
+            WeightUnit from,
+            WeightUnit to
+    ) {
+
+        double result =
+                Weight.convert(
+                        value,
+                        from,
+                        to
+                );
+
+        System.out.println(
+                "Convert "
+                        + value
+                        + " "
+                        + from
+                        + " to "
+                        + to
+                        + " = "
+                        + result
+        );
+    }
+
+    // WEIGHT ADDITION DEMO
+    public static void demonstrateWeightAddition(
+            Weight weight1,
+            Weight weight2,
+            WeightUnit targetUnit
+    ) {
+
+        Weight result =
+                weight1.add(
+                        weight2,
+                        targetUnit
+                );
+
+        System.out.println(
+                weight1
+                        + " + "
+                        + weight2
+                        + " = "
+                        + result
+        );
+    }
+
     // MAIN METHOD
     public static void main(String[] args) {
 
-        // UC5 CONVERSIONS
+        // UC5 LENGTH CONVERSIONS
         demonstrateLengthConversion(
                 1.0,
                 LengthUnit.FEET,
@@ -111,7 +156,7 @@ public class QuantityMeasurementApp {
                 LengthUnit.FEET
         );
 
-        // UC6 ADDITION
+        // UC6 LENGTH ADDITION
         Length feet =
                 new Length(
                         1.0,
@@ -188,6 +233,32 @@ public class QuantityMeasurementApp {
                 cm,
                 inch,
                 LengthUnit.CENTIMETERS
+        );
+
+        // UC9 WEIGHT CONVERSION
+        demonstrateWeightConversion(
+                1.0,
+                WeightUnit.KILOGRAM,
+                WeightUnit.GRAM
+        );
+
+        // UC9 WEIGHT ADDITION
+        Weight kilogram =
+                new Weight(
+                        1.0,
+                        WeightUnit.KILOGRAM
+                );
+
+        Weight gram =
+                new Weight(
+                        1000.0,
+                        WeightUnit.GRAM
+                );
+
+        demonstrateWeightAddition(
+                kilogram,
+                gram,
+                WeightUnit.KILOGRAM
         );
     }
 }
