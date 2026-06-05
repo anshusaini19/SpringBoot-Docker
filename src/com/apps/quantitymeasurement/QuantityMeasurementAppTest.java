@@ -703,4 +703,145 @@ public void poundPlusKilogramAddition() {
                 feet.getUnit()
         );
     }
+    @Test
+public void volumeLiterEqualMilliLiter() {
+
+    assertEquals(
+            new Quantity<>(1.0, VolumeUnit.LITRE),
+            new Quantity<>(1000.0, VolumeUnit.MILLILITRE)
+    );
+}
+
+@Test
+public void convertVolumeLitersToMilliliters() {
+
+    Quantity<VolumeUnit> result =
+            new Quantity<>(1.0, VolumeUnit.LITRE)
+                    .convertTo(
+                            VolumeUnit.MILLILITRE
+                    );
+
+    assertEquals(
+            new Quantity<>(1000.0,
+                    VolumeUnit.MILLILITRE),
+            result
+    );
+}
+
+@Test
+public void addVolumeLitersAndMilliliters() {
+
+    Quantity<VolumeUnit> result =
+            new Quantity<>(1.0, VolumeUnit.LITRE)
+                    .add(
+                            new Quantity<>(
+                                    1000.0,
+                                    VolumeUnit.MILLILITRE
+                            )
+                    );
+
+    assertEquals(
+            new Quantity<>(2.0,
+                    VolumeUnit.LITRE),
+            result
+    );
+}
+@Test
+public void convertMillilitersToLiters() {
+
+    Quantity<VolumeUnit> result =
+            new Quantity<>(1000.0, VolumeUnit.MILLILITRE)
+                    .convertTo(VolumeUnit.LITRE);
+
+    assertEquals(
+            new Quantity<>(1.0, VolumeUnit.LITRE),
+            result
+    );
+}
+
+@Test
+public void litreNotEqualTwoLitres() {
+
+    assertNotEquals(
+            new Quantity<>(1.0, VolumeUnit.LITRE),
+            new Quantity<>(2.0, VolumeUnit.LITRE)
+    );
+}
+
+@Test
+public void volumeReferenceEquality() {
+
+    Quantity<VolumeUnit> litre =
+            new Quantity<>(1.0, VolumeUnit.LITRE);
+
+    assertEquals(litre, litre);
+}
+
+@Test
+public void volumeEqualsNull() {
+
+    Quantity<VolumeUnit> litre =
+            new Quantity<>(1.0, VolumeUnit.LITRE);
+
+    assertNotEquals(litre, null);
+}
+
+@Test
+public void addVolumeTargetMilliLitre() {
+
+    Quantity<VolumeUnit> result =
+            new Quantity<>(1.0, VolumeUnit.LITRE)
+                    .add(
+                            new Quantity<>(
+                                    1000.0,
+                                    VolumeUnit.MILLILITRE
+                            ),
+                            VolumeUnit.MILLILITRE
+                    );
+
+    assertEquals(
+            new Quantity<>(2000.0,
+                    VolumeUnit.MILLILITRE),
+            result
+    );
+}
+
+@Test
+public void gallonEqualsLitres() {
+
+    assertEquals(
+            new Quantity<>(1.0, VolumeUnit.GALLON),
+            new Quantity<>(3.78541, VolumeUnit.LITRE)
+    );
+}
+
+@Test
+public void convertGallonToLitre() {
+
+    Quantity<VolumeUnit> result =
+            new Quantity<>(1.0, VolumeUnit.GALLON)
+                    .convertTo(VolumeUnit.LITRE);
+
+    assertEquals(
+            new Quantity<>(3.78541, VolumeUnit.LITRE),
+            result
+    );
+}
+
+@Test
+public void volumeTransitiveProperty() {
+
+    Quantity<VolumeUnit> a =
+            new Quantity<>(1.0, VolumeUnit.LITRE);
+
+    Quantity<VolumeUnit> b =
+            new Quantity<>(1000.0,
+                    VolumeUnit.MILLILITRE);
+
+    Quantity<VolumeUnit> c =
+            new Quantity<>(0.264172,
+                    VolumeUnit.GALLON);
+
+    assertEquals(a, b);
+}
 }

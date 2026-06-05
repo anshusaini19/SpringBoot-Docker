@@ -125,5 +125,27 @@ public class QuantityMeasurementApp {
                         WeightUnit.KILOGRAM
                 )
         );
+        Quantity<VolumeUnit> litre =
+        new Quantity<>(1.0, VolumeUnit.LITRE);
+
+Quantity<VolumeUnit> milliLitre =
+        new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+
+System.out.println(
+        "Volume Equality : " +
+        litre.equals(milliLitre)
+);
+
+System.out.println(
+        "Volume Conversion : " +
+        litre.convertTo(
+                VolumeUnit.MILLILITRE
+        )
+);
+
+System.out.println(
+        "Volume Addition : " +
+        litre.add(milliLitre)
+);
     }
 }
