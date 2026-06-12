@@ -42,6 +42,38 @@ public class QuantityMeasurementApp {
         );
     }
 
+    public static <U extends IMeasurable> Quantity<U> demonstrateSubtraction(
+        Quantity<U> quantity1,
+        Quantity<U> quantity2
+) {
+
+    return quantity1.subtract(
+            quantity2
+    );
+}
+
+public static <U extends IMeasurable> Quantity<U> demonstrateSubtraction(
+        Quantity<U> quantity1,
+        Quantity<U> quantity2,
+        U targetUnit
+) {
+
+    return quantity1.subtract(
+            quantity2,
+            targetUnit
+    );
+}
+
+public static <U extends IMeasurable> double demonstrateDivision(
+        Quantity<U> quantity1,
+        Quantity<U> quantity2
+) {
+
+    return quantity1.divide(
+            quantity2
+    );
+}
+
     public static void main(String[] args) {
 
         // ==========================
@@ -84,6 +116,33 @@ public class QuantityMeasurementApp {
                         LengthUnit.FEET
                 )
         );
+        System.out.println(
+        "Length Subtraction : "
+                + demonstrateSubtraction(
+                new Quantity<>(
+                        10.0,
+                        LengthUnit.FEET
+                ),
+                new Quantity<>(
+                        6.0,
+                        LengthUnit.INCHES
+                )
+        )
+);
+
+System.out.println(
+        "Length Division : "
+                + demonstrateDivision(
+                new Quantity<>(
+                        24.0,
+                        LengthUnit.INCHES
+                ),
+                new Quantity<>(
+                        2.0,
+                        LengthUnit.FEET
+                )
+        )
+);
 
         // ==========================
         // WEIGHT EXAMPLES
@@ -125,6 +184,33 @@ public class QuantityMeasurementApp {
                         WeightUnit.KILOGRAM
                 )
         );
+        System.out.println(
+        "Weight Subtraction : "
+                + demonstrateSubtraction(
+                new Quantity<>(
+                        10.0,
+                        WeightUnit.KILOGRAM
+                ),
+                new Quantity<>(
+                        5000.0,
+                        WeightUnit.GRAM
+                )
+        )
+);
+
+System.out.println(
+        "Weight Division : "
+                + demonstrateDivision(
+                new Quantity<>(
+                        10.0,
+                        WeightUnit.KILOGRAM
+                ),
+                new Quantity<>(
+                        5.0,
+                        WeightUnit.KILOGRAM
+                )
+        )
+);
         Quantity<VolumeUnit> litre =
         new Quantity<>(1.0, VolumeUnit.LITRE);
 
@@ -146,6 +232,33 @@ System.out.println(
 System.out.println(
         "Volume Addition : " +
         litre.add(milliLitre)
+);
+System.out.println(
+        "Volume Subtraction : "
+                + demonstrateSubtraction(
+                new Quantity<>(
+                        5.0,
+                        VolumeUnit.LITRE
+                ),
+                new Quantity<>(
+                        500.0,
+                        VolumeUnit.MILLILITRE
+                )
+        )
+);
+
+System.out.println(
+        "Volume Division : "
+                + demonstrateDivision(
+                new Quantity<>(
+                        1000.0,
+                        VolumeUnit.MILLILITRE
+                ),
+                new Quantity<>(
+                        1.0,
+                        VolumeUnit.LITRE
+                )
+        )
 );
     }
 }

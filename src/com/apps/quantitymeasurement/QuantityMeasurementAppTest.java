@@ -844,4 +844,308 @@ public void volumeTransitiveProperty() {
 
     assertEquals(a, b);
 }
+@Test
+public void subtractionSameUnitFeetMinusFeet() {
+
+    Quantity<LengthUnit> result =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .subtract(
+                            new Quantity<>(5.0, LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            new Quantity<>(5.0, LengthUnit.FEET),
+            result
+    );
+}
+
+@Test
+public void subtractionSameUnitLitreMinusLitre() {
+
+    Quantity<VolumeUnit> result =
+            new Quantity<>(10.0, VolumeUnit.LITRE)
+                    .subtract(
+                            new Quantity<>(3.0, VolumeUnit.LITRE)
+                    );
+
+    assertEquals(
+            new Quantity<>(7.0, VolumeUnit.LITRE),
+            result
+    );
+}
+
+@Test
+public void subtractionCrossUnitFeetMinusInches() {
+
+    Quantity<LengthUnit> result =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .subtract(
+                            new Quantity<>(6.0, LengthUnit.INCHES)
+                    );
+
+    assertEquals(
+            new Quantity<>(9.5, LengthUnit.FEET),
+            result
+    );
+}
+
+@Test
+public void subtractionCrossUnitInchesMinusFeet() {
+
+    Quantity<LengthUnit> result =
+            new Quantity<>(120.0, LengthUnit.INCHES)
+                    .subtract(
+                            new Quantity<>(5.0, LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            new Quantity<>(60.0, LengthUnit.INCHES),
+            result
+    );
+}
+
+@Test
+public void subtractionTargetUnitInches() {
+
+    Quantity<LengthUnit> result =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .subtract(
+                            new Quantity<>(6.0, LengthUnit.INCHES),
+                            LengthUnit.INCHES
+                    );
+
+    assertEquals(
+            new Quantity<>(114.0, LengthUnit.INCHES),
+            result
+    );
+}
+
+@Test
+public void subtractionTargetUnitMillilitre() {
+
+    Quantity<VolumeUnit> result =
+            new Quantity<>(5.0, VolumeUnit.LITRE)
+                    .subtract(
+                            new Quantity<>(2.0, VolumeUnit.LITRE),
+                            VolumeUnit.MILLILITRE
+                    );
+
+    assertEquals(
+            new Quantity<>(3000.0,
+                    VolumeUnit.MILLILITRE),
+            result
+    );
+}
+
+@Test
+public void subtractionNegativeResult() {
+
+    Quantity<LengthUnit> result =
+            new Quantity<>(5.0, LengthUnit.FEET)
+                    .subtract(
+                            new Quantity<>(10.0, LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            new Quantity<>(-5.0, LengthUnit.FEET),
+            result
+    );
+}
+
+@Test
+public void subtractionZeroResult() {
+
+    Quantity<LengthUnit> result =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .subtract(
+                            new Quantity<>(120.0,
+                                    LengthUnit.INCHES)
+                    );
+
+    assertEquals(
+            new Quantity<>(0.0, LengthUnit.FEET),
+            result
+    );
+}
+
+@Test
+public void subtractionNullOperand() {
+
+    assertThrows(
+            IllegalArgumentException.class,
+            () -> new Quantity<>(10.0, LengthUnit.FEET)
+                    .subtract(null)
+    );
+}
+
+@Test
+public void subtractionNullTargetUnit() {
+
+    assertThrows(
+            IllegalArgumentException.class,
+            () -> new Quantity<>(10.0, LengthUnit.FEET)
+                    .subtract(
+                            new Quantity<>(5.0,
+                                    LengthUnit.FEET),
+                            null
+                    )
+    );
+}
+@Test
+public void divisionSameUnitFeetByFeet() {
+
+    double result =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .divide(
+                            new Quantity<>(2.0,
+                                    LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            5.0,
+            result
+    );
+}
+
+@Test
+public void divisionSameUnitLitreByLitre() {
+
+    double result =
+            new Quantity<>(10.0, VolumeUnit.LITRE)
+                    .divide(
+                            new Quantity<>(5.0,
+                                    VolumeUnit.LITRE)
+                    );
+
+    assertEquals(
+            2.0,
+            result
+    );
+}
+
+@Test
+public void divisionCrossUnitFeetByInches() {
+
+    double result =
+            new Quantity<>(24.0, LengthUnit.INCHES)
+                    .divide(
+                            new Quantity<>(2.0,
+                                    LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            1.0,
+            result
+    );
+}
+
+@Test
+public void divisionCrossUnitKilogramByGram() {
+
+    double result =
+            new Quantity<>(2.0, WeightUnit.KILOGRAM)
+                    .divide(
+                            new Quantity<>(2000.0,
+                                    WeightUnit.GRAM)
+                    );
+
+    assertEquals(
+            1.0,
+            result
+    );
+}
+
+@Test
+public void divisionRatioGreaterThanOne() {
+
+    double result =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .divide(
+                            new Quantity<>(2.0,
+                                    LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            5.0,
+            result
+    );
+}
+
+@Test
+public void divisionRatioLessThanOne() {
+
+    double result =
+            new Quantity<>(5.0, LengthUnit.FEET)
+                    .divide(
+                            new Quantity<>(10.0,
+                                    LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            0.5,
+            result
+    );
+}
+
+@Test
+public void divisionRatioEqualOne() {
+
+    double result =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .divide(
+                            new Quantity<>(10.0,
+                                    LengthUnit.FEET)
+                    );
+
+    assertEquals(
+            1.0,
+            result
+    );
+}
+
+@Test
+public void divisionNonCommutative() {
+
+    double result1 =
+            new Quantity<>(10.0, LengthUnit.FEET)
+                    .divide(
+                            new Quantity<>(5.0,
+                                    LengthUnit.FEET)
+                    );
+
+    double result2 =
+            new Quantity<>(5.0, LengthUnit.FEET)
+                    .divide(
+                            new Quantity<>(10.0,
+                                    LengthUnit.FEET)
+                    );
+
+    assertNotEquals(
+            result1,
+            result2
+    );
+}
+
+@Test
+public void divisionByZero() {
+
+    assertThrows(
+            ArithmeticException.class,
+            () -> new Quantity<>(10.0, LengthUnit.FEET)
+                    .divide(
+                            new Quantity<>(0.0,
+                                    LengthUnit.FEET)
+                    )
+    );
+}
+
+@Test
+public void divisionNullOperand() {
+
+    assertThrows(
+            IllegalArgumentException.class,
+            () -> new Quantity<>(10.0, LengthUnit.FEET)
+                    .divide(null)
+    );
+}
 }
