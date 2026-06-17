@@ -211,28 +211,47 @@ System.out.println(
                 )
         )
 );
-        Quantity<VolumeUnit> litre =
-        new Quantity<>(1.0, VolumeUnit.LITRE);
+        // ==========================
+// VOLUME EXAMPLES
+// ==========================
+
+Quantity<VolumeUnit> litre =
+        new Quantity<>(
+                1.0,
+                VolumeUnit.LITRE
+        );
 
 Quantity<VolumeUnit> milliLitre =
-        new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+        new Quantity<>(
+                1000.0,
+                VolumeUnit.MILLILITRE
+        );
 
 System.out.println(
-        "Volume Equality : " +
-        litre.equals(milliLitre)
+        "Volume Equality : "
+                + demonstrateEquality(
+                litre,
+                milliLitre
+        )
 );
 
 System.out.println(
-        "Volume Conversion : " +
-        litre.convertTo(
+        "Volume Conversion : "
+                + demonstrateConversion(
+                litre,
                 VolumeUnit.MILLILITRE
         )
 );
 
 System.out.println(
-        "Volume Addition : " +
-        litre.add(milliLitre)
+        "Volume Addition : "
+                + demonstrateAddition(
+                litre,
+                milliLitre,
+                VolumeUnit.LITRE
+        )
 );
+
 System.out.println(
         "Volume Subtraction : "
                 + demonstrateSubtraction(

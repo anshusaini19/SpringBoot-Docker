@@ -1,6 +1,7 @@
 package com.apps.quantitymeasurement;
 
 import java.util.Objects;
+import java.util.function.DoubleBinaryOperator;
 
 public class Quantity<U extends IMeasurable> {
 
@@ -53,6 +54,10 @@ public class Quantity<U extends IMeasurable> {
         );
     }
 
+    // =====================================
+    // UC13 : ADD METHODS REFACTORED
+    // =====================================
+
     public Quantity<U> add(
             Quantity<U> other
     ) {
@@ -68,11 +73,83 @@ public class Quantity<U extends IMeasurable> {
             U targetUnit
     ) {
 
+        validateArithmeticOperands(
+                other,
+                targetUnit,
+                true
+        );
+
+        double resultBase =
+                performBaseArithmetic(
+                        other,
+                        ArithmeticOperation.ADD
+                );
+
+        double result =
+                targetUnit.convertFromBaseUnit(
+                        resultBase
+                );
+
+        return new Quantity<>(
+                result,
+                targetUnit
+        );
+    }
+
+    // =====================================================
+    // UC13 NEW CODE START
+    // Centralized Validation Helper (DRY)
+    // =====================================================
+
+    private void validateArithmeticOperands(
+            Quantity<U> other,
+            U targetUnit,
+            boolean targetUnitRequired
+    ) {
+
         if (other == null) {
             throw new IllegalArgumentException(
                     "Quantity cannot be null"
             );
         }
+
+        if (targetUnitRequired && targetUnit == null) {
+            throw new IllegalArgumentException(
+                    "Target unit cannot be null"
+            );
+        }
+
+        if (unit.getClass() !=
+                other.unit.getClass()) {
+
+            throw new IllegalArgumentException(
+                    "Different measurement categories"
+            );
+        }
+
+        if (!Double.isFinite(value)
+                || !Double.isFinite(other.value)) {
+
+            throw new IllegalArgumentException(
+                    "Values must be finite"
+            );
+        }
+    }
+
+    // =====================================================
+    // UC13 NEW CODE END
+    // =====================================================
+
+
+    // =====================================================
+    // UC13 NEW CODE START
+    // Centralized Arithmetic Helper
+    // =====================================================
+
+    private double performBaseArithmetic(
+            Quantity<U> other,
+            ArithmeticOperation operation
+    ) {
 
         double thisBase =
                 unit.convertToBaseUnit(value);
@@ -82,12 +159,49 @@ public class Quantity<U extends IMeasurable> {
                         other.value
                 );
 
-        double sumBase =
-                thisBase + otherBase;
+        return operation.compute(
+                thisBase,
+                otherBase
+        );
+    }
+
+    // =====================================================
+    // UC13 NEW CODE END
+    // =====================================================
+        // =====================================
+    // UC13 : SUBTRACT METHODS REFACTORED
+    // =====================================
+
+    public Quantity<U> subtract(
+            Quantity<U> other
+    ) {
+
+        return subtract(
+                other,
+                this.unit
+        );
+    }
+
+    public Quantity<U> subtract(
+            Quantity<U> other,
+            U targetUnit
+    ) {
+
+        validateArithmeticOperands(
+                other,
+                targetUnit,
+                true
+        );
+
+        double resultBase =
+                performBaseArithmetic(
+                        other,
+                        ArithmeticOperation.SUBTRACT
+                );
 
         double result =
                 targetUnit.convertFromBaseUnit(
-                        sumBase
+                        resultBase
                 );
 
         return new Quantity<>(
@@ -95,81 +209,26 @@ public class Quantity<U extends IMeasurable> {
                 targetUnit
         );
     }
-    public Quantity<U> subtract(
-        Quantity<U> other
-) {
 
-    return subtract(
-            other,
-            this.unit
-    );
-}
+    // =====================================
+    // UC13 : DIVIDE METHOD REFACTORED
+    // =====================================
 
-public Quantity<U> subtract(
-        Quantity<U> other,
-        U targetUnit
-) {
+    public double divide(
+            Quantity<U> other
+    ) {
 
-    if (other == null) {
-        throw new IllegalArgumentException(
-                "Quantity cannot be null"
+        validateArithmeticOperands(
+                other,
+                null,
+                false
+        );
+
+        return performBaseArithmetic(
+                other,
+                ArithmeticOperation.DIVIDE
         );
     }
-
-    if (targetUnit == null) {
-        throw new IllegalArgumentException(
-                "Target unit cannot be null"
-        );
-    }
-
-    double thisBase =
-            unit.convertToBaseUnit(value);
-
-    double otherBase =
-            other.unit.convertToBaseUnit(
-                    other.value
-            );
-
-    double differenceBase =
-            thisBase - otherBase;
-
-    double result =
-            targetUnit.convertFromBaseUnit(
-                    differenceBase
-            );
-
-    return new Quantity<>(
-            result,
-            targetUnit
-    );
-}
-
-public double divide(
-        Quantity<U> other
-) {
-
-    if (other == null) {
-        throw new IllegalArgumentException(
-                "Quantity cannot be null"
-        );
-    }
-
-    double thisBase =
-            unit.convertToBaseUnit(value);
-
-    double otherBase =
-            other.unit.convertToBaseUnit(
-                    other.value
-            );
-
-    if (otherBase == 0) {
-        throw new ArithmeticException(
-                "Division by zero"
-        );
-    }
-
-    return thisBase / otherBase;
-}
 
     @Override
     public boolean equals(Object obj) {
@@ -226,4 +285,51 @@ public double divide(
                 unit.getUnitName() +
                 ")";
     }
+
+    // ==========================================================
+    // UC13 NEW CODE START
+    // Enum-based centralized arithmetic using Lambda Expressions
+    // ==========================================================
+
+    private enum ArithmeticOperation {
+
+        ADD((a, b) -> a + b),
+
+        SUBTRACT((a, b) -> a - b),
+
+        DIVIDE((a, b) -> {
+
+            if (b == 0) {
+                throw new ArithmeticException(
+                        "Division by zero"
+                );
+            }
+
+            return a / b;
+        });
+
+        private final DoubleBinaryOperator operator;
+
+        ArithmeticOperation(
+                DoubleBinaryOperator operator
+        ) {
+
+            this.operator = operator;
+        }
+
+        public double compute(
+                double left,
+                double right
+        ) {
+
+            return operator.applyAsDouble(
+                    left,
+                    right
+            );
+        }
+    }
+
+    // ==========================================================
+    // UC13 NEW CODE END
+    // ==========================================================
 }
