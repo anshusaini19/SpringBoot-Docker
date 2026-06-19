@@ -34,6 +34,11 @@ public class Quantity<U extends IMeasurable> {
         return unit;
     }
 
+    // =====================================================
+    // UC14 UPDATED
+    // Temperature-aware conversion
+    // =====================================================
+
     public Quantity<U> convertTo(U targetUnit) {
 
         if (targetUnit == null) {
@@ -42,11 +47,40 @@ public class Quantity<U extends IMeasurable> {
             );
         }
 
+        if (unit.getClass() != targetUnit.getClass()) {
+            throw new IllegalArgumentException(
+                    "Different measurement categories"
+            );
+        }
+
+        if (unit instanceof TemperatureUnit
+                && targetUnit instanceof TemperatureUnit) {
+
+            TemperatureUnit source =
+                    (TemperatureUnit) unit;
+
+            TemperatureUnit target =
+                    (TemperatureUnit) targetUnit;
+
+            double convertedValue =
+                    source.convertTo(
+                            value,
+                            target
+                    );
+
+            return new Quantity<>(
+                    convertedValue,
+                    targetUnit
+            );
+        }
+
         double baseValue =
                 unit.convertToBaseUnit(value);
 
         double convertedValue =
-                targetUnit.convertFromBaseUnit(baseValue);
+                targetUnit.convertFromBaseUnit(
+                        baseValue
+                );
 
         return new Quantity<>(
                 convertedValue,
@@ -54,9 +88,9 @@ public class Quantity<U extends IMeasurable> {
         );
     }
 
-    // =====================================
-    // UC13 : ADD METHODS REFACTORED
-    // =====================================
+    // =====================================================
+    // UC13 REFACTORED ADD
+    // =====================================================
 
     public Quantity<U> add(
             Quantity<U> other
@@ -97,8 +131,7 @@ public class Quantity<U extends IMeasurable> {
     }
 
     // =====================================================
-    // UC13 NEW CODE START
-    // Centralized Validation Helper (DRY)
+    // UC13 Validation Helper
     // =====================================================
 
     private void validateArithmeticOperands(
@@ -113,7 +146,9 @@ public class Quantity<U extends IMeasurable> {
             );
         }
 
-        if (targetUnitRequired && targetUnit == null) {
+        if (targetUnitRequired &&
+                targetUnit == null) {
+
             throw new IllegalArgumentException(
                     "Target unit cannot be null"
             );
@@ -137,12 +172,7 @@ public class Quantity<U extends IMeasurable> {
     }
 
     // =====================================================
-    // UC13 NEW CODE END
-    // =====================================================
-
-
-    // =====================================================
-    // UC13 NEW CODE START
+    // UC14 UPDATED
     // Centralized Arithmetic Helper
     // =====================================================
 
@@ -150,6 +180,11 @@ public class Quantity<U extends IMeasurable> {
             Quantity<U> other,
             ArithmeticOperation operation
     ) {
+
+        // UC14 NEW
+        unit.validateOperationSupport(
+                operation.name()
+        );
 
         double thisBase =
                 unit.convertToBaseUnit(value);
@@ -164,13 +199,9 @@ public class Quantity<U extends IMeasurable> {
                 otherBase
         );
     }
-
+        // =====================================================
+    // UC13 REFACTORED SUBTRACT
     // =====================================================
-    // UC13 NEW CODE END
-    // =====================================================
-        // =====================================
-    // UC13 : SUBTRACT METHODS REFACTORED
-    // =====================================
 
     public Quantity<U> subtract(
             Quantity<U> other
@@ -210,9 +241,9 @@ public class Quantity<U extends IMeasurable> {
         );
     }
 
-    // =====================================
-    // UC13 : DIVIDE METHOD REFACTORED
-    // =====================================
+    // =====================================================
+    // UC13 REFACTORED DIVIDE
+    // =====================================================
 
     public double divide(
             Quantity<U> other
@@ -286,10 +317,9 @@ public class Quantity<U extends IMeasurable> {
                 ")";
     }
 
-    // ==========================================================
-    // UC13 NEW CODE START
-    // Enum-based centralized arithmetic using Lambda Expressions
-    // ==========================================================
+    // =====================================================
+    // UC13 ArithmeticOperation Enum
+    // =====================================================
 
     private enum ArithmeticOperation {
 
@@ -313,7 +343,6 @@ public class Quantity<U extends IMeasurable> {
         ArithmeticOperation(
                 DoubleBinaryOperator operator
         ) {
-
             this.operator = operator;
         }
 
@@ -321,15 +350,10 @@ public class Quantity<U extends IMeasurable> {
                 double left,
                 double right
         ) {
-
             return operator.applyAsDouble(
                     left,
                     right
             );
         }
     }
-
-    // ==========================================================
-    // UC13 NEW CODE END
-    // ==========================================================
 }

@@ -279,5 +279,130 @@ System.out.println(
                 )
         )
 );
+// ==========================
+// TEMPERATURE EXAMPLES (UC14)
+// ==========================
+
+Quantity<TemperatureUnit> celsius =
+        new Quantity<>(
+                100.0,
+                TemperatureUnit.CELSIUS
+        );
+
+Quantity<TemperatureUnit> fahrenheit =
+        new Quantity<>(
+                212.0,
+                TemperatureUnit.FAHRENHEIT
+        );
+
+Quantity<TemperatureUnit> kelvin =
+        new Quantity<>(
+                373.15,
+                TemperatureUnit.KELVIN
+        );
+
+System.out.println(
+        "Temperature Equality (Celsius vs Fahrenheit) : "
+                + demonstrateEquality(
+                celsius,
+                fahrenheit
+        )
+);
+
+System.out.println(
+        "Temperature Equality (Celsius vs Kelvin) : "
+                + demonstrateEquality(
+                celsius,
+                kelvin
+        )
+);
+
+System.out.println(
+        "Temperature Conversion (Celsius -> Fahrenheit) : "
+                + demonstrateConversion(
+                celsius,
+                TemperatureUnit.FAHRENHEIT
+        )
+);
+
+System.out.println(
+        "Temperature Conversion (Fahrenheit -> Celsius) : "
+                + demonstrateConversion(
+                fahrenheit,
+                TemperatureUnit.CELSIUS
+        )
+);
+
+System.out.println(
+        "Temperature Conversion (Kelvin -> Celsius) : "
+                + demonstrateConversion(
+                kelvin,
+                TemperatureUnit.CELSIUS
+        )
+);
+
+// ==========================================
+// UC14 NEW
+// Unsupported Arithmetic Demonstration
+// ==========================================
+
+try {
+
+    System.out.println(
+            demonstrateAddition(
+                    celsius,
+                    new Quantity<>(
+                            50.0,
+                            TemperatureUnit.CELSIUS
+                    )
+            )
+    );
+
+} catch (UnsupportedOperationException e) {
+
+    System.out.println(
+            "Temperature Addition : "
+                    + e.getMessage()
+    );
+}
+
+try {
+
+    System.out.println(
+            demonstrateSubtraction(
+                    celsius,
+                    new Quantity<>(
+                            50.0,
+                            TemperatureUnit.CELSIUS
+                    )
+            )
+    );
+
+} catch (UnsupportedOperationException e) {
+
+    System.out.println(
+            "Temperature Subtraction : "
+                    + e.getMessage()
+    );
+}
+
+try {
+
+    System.out.println(
+            demonstrateDivision(
+                    celsius,
+                    new Quantity<>(
+                            50.0,
+                            TemperatureUnit.CELSIUS
+                    )
+    ));
+
+} catch (UnsupportedOperationException e) {
+
+    System.out.println(
+            "Temperature Division : "
+                    + e.getMessage()
+    );
+}
     }
 }

@@ -1450,4 +1450,241 @@ public void testRefactoring_NoBehaviorChange_LargeDataset() {
         );
     }
 }
+// =========================================
+// UC14 TEMPERATURE TESTS
+// =========================================
+
+@Test
+public void temperatureEquality_CelsiusToCelsius() {
+
+    assertEquals(
+            new Quantity<>(0.0,
+                    TemperatureUnit.CELSIUS),
+            new Quantity<>(0.0,
+                    TemperatureUnit.CELSIUS)
+    );
+}
+
+@Test
+public void temperatureEquality_CelsiusToFahrenheit() {
+
+    assertEquals(
+            new Quantity<>(0.0,
+                    TemperatureUnit.CELSIUS),
+            new Quantity<>(32.0,
+                    TemperatureUnit.FAHRENHEIT)
+    );
+}
+
+@Test
+public void temperatureEquality_CelsiusToKelvin() {
+
+    assertEquals(
+            new Quantity<>(0.0,
+                    TemperatureUnit.CELSIUS),
+            new Quantity<>(273.15,
+                    TemperatureUnit.KELVIN)
+    );
+}
+
+@Test
+public void temperatureEquality_BoilingPoint() {
+
+    assertEquals(
+            new Quantity<>(100.0,
+                    TemperatureUnit.CELSIUS),
+            new Quantity<>(212.0,
+                    TemperatureUnit.FAHRENHEIT)
+    );
+}
+
+@Test
+public void temperatureEquality_Negative40() {
+
+    assertEquals(
+            new Quantity<>(-40.0,
+                    TemperatureUnit.CELSIUS),
+            new Quantity<>(-40.0,
+                    TemperatureUnit.FAHRENHEIT)
+    );
+}
+
+@Test
+public void convertCelsiusToFahrenheit() {
+
+    Quantity<TemperatureUnit> result =
+            new Quantity<>(
+                    100.0,
+                    TemperatureUnit.CELSIUS
+            ).convertTo(
+                    TemperatureUnit.FAHRENHEIT
+            );
+
+    assertEquals(
+            new Quantity<>(
+                    212.0,
+                    TemperatureUnit.FAHRENHEIT
+            ),
+            result
+    );
+}
+
+@Test
+public void convertFahrenheitToCelsius() {
+
+    Quantity<TemperatureUnit> result =
+            new Quantity<>(
+                    32.0,
+                    TemperatureUnit.FAHRENHEIT
+            ).convertTo(
+                    TemperatureUnit.CELSIUS
+            );
+
+    assertEquals(
+            new Quantity<>(
+                    0.0,
+                    TemperatureUnit.CELSIUS
+            ),
+            result
+    );
+}
+
+@Test
+public void convertKelvinToCelsius() {
+
+    Quantity<TemperatureUnit> result =
+            new Quantity<>(
+                    273.15,
+                    TemperatureUnit.KELVIN
+            ).convertTo(
+                    TemperatureUnit.CELSIUS
+            );
+
+    assertEquals(
+            new Quantity<>(
+                    0.0,
+                    TemperatureUnit.CELSIUS
+            ),
+            result
+    );
+}
+
+@Test
+public void convertCelsiusToKelvin() {
+
+    Quantity<TemperatureUnit> result =
+            new Quantity<>(
+                    0.0,
+                    TemperatureUnit.CELSIUS
+            ).convertTo(
+                    TemperatureUnit.KELVIN
+            );
+
+    assertEquals(
+            new Quantity<>(
+                    273.15,
+                    TemperatureUnit.KELVIN
+            ),
+            result
+    );
+}
+
+@Test
+public void temperatureAdditionNotSupported() {
+
+    assertThrows(
+            UnsupportedOperationException.class,
+            () -> new Quantity<>(
+                    100.0,
+                    TemperatureUnit.CELSIUS
+            ).add(
+                    new Quantity<>(
+                            50.0,
+                            TemperatureUnit.CELSIUS
+                    )
+            )
+    );
+}
+
+@Test
+public void temperatureSubtractionNotSupported() {
+
+    assertThrows(
+            UnsupportedOperationException.class,
+            () -> new Quantity<>(
+                    100.0,
+                    TemperatureUnit.CELSIUS
+            ).subtract(
+                    new Quantity<>(
+                            50.0,
+                            TemperatureUnit.CELSIUS
+                    )
+            )
+    );
+}
+
+@Test
+public void temperatureDivisionNotSupported() {
+
+    assertThrows(
+            UnsupportedOperationException.class,
+            () -> new Quantity<>(
+                    100.0,
+                    TemperatureUnit.CELSIUS
+            ).divide(
+                    new Quantity<>(
+                            50.0,
+                            TemperatureUnit.CELSIUS
+                    )
+            )
+    );
+}
+
+@Test
+public void temperatureSupportsArithmeticFalse() {
+
+    assertFalse(
+            TemperatureUnit.CELSIUS
+                    .supportsArithmetic()
+    );
+}
+
+@Test
+public void temperatureReferenceEquality() {
+
+    Quantity<TemperatureUnit> temp =
+            new Quantity<>(
+                    25.0,
+                    TemperatureUnit.CELSIUS
+            );
+
+    assertEquals(temp, temp);
+}
+
+@Test
+public void temperatureNotEqualNull() {
+
+    Quantity<TemperatureUnit> temp =
+            new Quantity<>(
+                    25.0,
+                    TemperatureUnit.CELSIUS
+            );
+
+    assertNotEquals(temp, null);
+}
+
+@Test
+public void temperatureDifferentValuesNotEqual() {
+
+    assertNotEquals(
+            new Quantity<>(
+                    25.0,
+                    TemperatureUnit.CELSIUS
+            ),
+            new Quantity<>(
+                    50.0,
+                    TemperatureUnit.CELSIUS
+            )
+    );
+}
 }
