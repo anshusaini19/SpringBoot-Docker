@@ -17,7 +17,6 @@ public enum LengthUnit implements IMeasurable {
     public double getConversionFactor() {
         return conversionFactor;
     }
-    //new additions of uc10 below
 
     @Override
     public double convertToBaseUnit(double value) {
@@ -36,5 +35,19 @@ public enum LengthUnit implements IMeasurable {
     @Override
     public String getUnitName() {
         return name();
+    }
+
+    // ===========================
+    // UC15 NEW
+    // ===========================
+
+    @Override
+    public String getMeasurementType() {
+        return "Length";
+    }
+
+    @Override
+    public IMeasurable getUnitInstance(String unitName) {
+        return LengthUnit.valueOf(unitName.toUpperCase());
     }
 }

@@ -130,6 +130,19 @@ public enum TemperatureUnit implements IMeasurable {
             );
         }
     }
+    // =====================================================
+    // UC15 NEW
+    // =====================================================
+
+    @Override
+    public String getMeasurementType() {
+        return "Temperature";
+    }
+
+    @Override
+    public IMeasurable getUnitInstance(String unitName) {
+        return TemperatureUnit.valueOf(unitName.toUpperCase());
+    }
 
     @Override
     public String toString() {

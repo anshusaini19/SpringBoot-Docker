@@ -1,408 +1,426 @@
 package com.apps.quantitymeasurement;
+import com.apps.quantitymeasurement.controller.QuantityMeasurementController;
+import com.apps.quantitymeasurement.entity.QuantityDTO;
+import com.apps.quantitymeasurement.repository.IQuantityMeasurementRepository;
+import com.apps.quantitymeasurement.repository.QuantityMeasurementCacheRepository;
+import com.apps.quantitymeasurement.service.IQuantityMeasurementService;
+import com.apps.quantitymeasurement.service.QuantityMeasurementServiceImpl;
 
 public class QuantityMeasurementApp {
-
-    // GENERIC EQUALITY DEMO
-    public static <U extends IMeasurable> boolean demonstrateEquality(
-            Quantity<U> quantity1,
-            Quantity<U> quantity2
-    ) {
-
-        return quantity1.equals(quantity2);
-    }
-
-    // GENERIC CONVERSION DEMO
-    public static <U extends IMeasurable> Quantity<U> demonstrateConversion(
-            Quantity<U> quantity,
-            U targetUnit
-    ) {
-
-        return quantity.convertTo(targetUnit);
-    }
-
-    // UC6 STYLE ADDITION
-    public static <U extends IMeasurable> Quantity<U> demonstrateAddition(
-            Quantity<U> quantity1,
-            Quantity<U> quantity2
-    ) {
-
-        return quantity1.add(quantity2);
-    }
-
-    // UC7 STYLE ADDITION WITH TARGET UNIT
-    public static <U extends IMeasurable> Quantity<U> demonstrateAddition(
-            Quantity<U> quantity1,
-            Quantity<U> quantity2,
-            U targetUnit
-    ) {
-
-        return quantity1.add(
-                quantity2,
-                targetUnit
-        );
-    }
-
-    public static <U extends IMeasurable> Quantity<U> demonstrateSubtraction(
-        Quantity<U> quantity1,
-        Quantity<U> quantity2
-) {
-
-    return quantity1.subtract(
-            quantity2
-    );
-}
-
-public static <U extends IMeasurable> Quantity<U> demonstrateSubtraction(
-        Quantity<U> quantity1,
-        Quantity<U> quantity2,
-        U targetUnit
-) {
-
-    return quantity1.subtract(
-            quantity2,
-            targetUnit
-    );
-}
-
-public static <U extends IMeasurable> double demonstrateDivision(
-        Quantity<U> quantity1,
-        Quantity<U> quantity2
-) {
-
-    return quantity1.divide(
-            quantity2
-    );
-}
-
     public static void main(String[] args) {
+        IQuantityMeasurementRepository repository =
+                QuantityMeasurementCacheRepository.getInstance();
+
+        IQuantityMeasurementService service =
+                new QuantityMeasurementServiceImpl(repository);
+
+        QuantityMeasurementController controller =
+                new QuantityMeasurementController(service);
 
         // ==========================
         // LENGTH EXAMPLES
         // ==========================
 
-        Quantity<LengthUnit> feet =
-                new Quantity<>(
+        QuantityDTO feetDTO =
+                new QuantityDTO(
                         1.0,
-                        LengthUnit.FEET
+                        "FEET",
+                        "Length"
                 );
 
-        Quantity<LengthUnit> inches =
-                new Quantity<>(
+        QuantityDTO inchesDTO =
+                new QuantityDTO(
                         12.0,
-                        LengthUnit.INCHES
+                        "INCHES",
+                        "Length"
                 );
 
         System.out.println(
                 "Length Equality : "
-                        + demonstrateEquality(
-                        feet,
-                        inches
+                        + controller.compare(
+                        feetDTO,
+                        inchesDTO
                 )
         );
+
+        QuantityDTO convertedLength =
+                controller.convert(
+                        feetDTO,
+                        "INCHES"
+                );
 
         System.out.println(
                 "Length Conversion : "
-                        + demonstrateConversion(
-                        feet,
-                        LengthUnit.INCHES
-                )
+                        + convertedLength
         );
+
+        QuantityDTO addedLength =
+                controller.add(
+                        feetDTO,
+                        inchesDTO,
+                        "FEET"
+                );
 
         System.out.println(
                 "Length Addition : "
-                        + demonstrateAddition(
-                        feet,
-                        inches,
-                        LengthUnit.FEET
+                        + addedLength
+        );
+        QuantityDTO length1 =
+                new QuantityDTO(
+                        10.0,
+                        "FEET",
+                        "Length"
+                );
+
+        QuantityDTO length2 =
+                new QuantityDTO(
+                        6.0,
+                        "INCHES",
+                        "Length"
+                );
+
+        QuantityDTO subtractedLength =
+                controller.subtract(
+                        length1,
+                        length2,
+                        "FEET"
+                );
+
+        System.out.println(
+                "Length Subtraction : "
+                        + subtractedLength
+        );
+
+        QuantityDTO length3 =
+                new QuantityDTO(
+                        24.0,
+                        "INCHES",
+                        "Length"
+                );
+
+        QuantityDTO length4 =
+                new QuantityDTO(
+                        2.0,
+                        "FEET",
+                        "Length"
+                );
+
+        System.out.println(
+                "Length Division : "
+                        + controller.divide(
+                        length3,
+                        length4
                 )
         );
-        System.out.println(
-        "Length Subtraction : "
-                + demonstrateSubtraction(
-                new Quantity<>(
-                        10.0,
-                        LengthUnit.FEET
-                ),
-                new Quantity<>(
-                        6.0,
-                        LengthUnit.INCHES
-                )
-        )
-);
-
-System.out.println(
-        "Length Division : "
-                + demonstrateDivision(
-                new Quantity<>(
-                        24.0,
-                        LengthUnit.INCHES
-                ),
-                new Quantity<>(
-                        2.0,
-                        LengthUnit.FEET
-                )
-        )
-);
-
         // ==========================
         // WEIGHT EXAMPLES
         // ==========================
 
-        Quantity<WeightUnit> kilogram =
-                new Quantity<>(
+        QuantityDTO kilogramDTO =
+                new QuantityDTO(
                         1.0,
-                        WeightUnit.KILOGRAM
+                        "KILOGRAM",
+                        "Weight"
                 );
 
-        Quantity<WeightUnit> gram =
-                new Quantity<>(
+        QuantityDTO gramDTO =
+                new QuantityDTO(
                         1000.0,
-                        WeightUnit.GRAM
+                        "GRAM",
+                        "Weight"
                 );
 
         System.out.println(
                 "Weight Equality : "
-                        + demonstrateEquality(
-                        kilogram,
-                        gram
+                        + controller.compare(
+                        kilogramDTO,
+                        gramDTO
                 )
         );
 
         System.out.println(
                 "Weight Conversion : "
-                        + demonstrateConversion(
-                        kilogram,
-                        WeightUnit.GRAM
+                        + controller.convert(
+                        kilogramDTO,
+                        "GRAM"
                 )
         );
 
         System.out.println(
                 "Weight Addition : "
-                        + demonstrateAddition(
-                        kilogram,
-                        gram,
-                        WeightUnit.KILOGRAM
+                        + controller.add(
+                        kilogramDTO,
+                        gramDTO,
+                        "KILOGRAM"
                 )
         );
-        System.out.println(
-        "Weight Subtraction : "
-                + demonstrateSubtraction(
-                new Quantity<>(
+
+        QuantityDTO weight1 =
+                new QuantityDTO(
                         10.0,
-                        WeightUnit.KILOGRAM
-                ),
-                new Quantity<>(
+                        "KILOGRAM",
+                        "Weight"
+                );
+
+        QuantityDTO weight2 =
+                new QuantityDTO(
                         5000.0,
-                        WeightUnit.GRAM
-                )
-        )
-);
+                        "GRAM",
+                        "Weight"
+                );
 
-System.out.println(
-        "Weight Division : "
-                + demonstrateDivision(
-                new Quantity<>(
+        System.out.println(
+                "Weight Subtraction : "
+                        + controller.subtract(
+                        weight1,
+                        weight2,
+                        "KILOGRAM"
+                )
+        );
+
+        QuantityDTO weight3 =
+                new QuantityDTO(
                         10.0,
-                        WeightUnit.KILOGRAM
-                ),
-                new Quantity<>(
+                        "KILOGRAM",
+                        "Weight"
+                );
+
+        QuantityDTO weight4 =
+                new QuantityDTO(
                         5.0,
-                        WeightUnit.KILOGRAM
+                        "KILOGRAM",
+                        "Weight"
+                );
+
+        System.out.println(
+                "Weight Division : "
+                        + controller.divide(
+                        weight3,
+                        weight4
                 )
-        )
-);
+        );
+
         // ==========================
-// VOLUME EXAMPLES
-// ==========================
+        // VOLUME EXAMPLES
+        // ==========================
 
-Quantity<VolumeUnit> litre =
-        new Quantity<>(
-                1.0,
-                VolumeUnit.LITRE
-        );
-
-Quantity<VolumeUnit> milliLitre =
-        new Quantity<>(
-                1000.0,
-                VolumeUnit.MILLILITRE
-        );
-
-System.out.println(
-        "Volume Equality : "
-                + demonstrateEquality(
-                litre,
-                milliLitre
-        )
-);
-
-System.out.println(
-        "Volume Conversion : "
-                + demonstrateConversion(
-                litre,
-                VolumeUnit.MILLILITRE
-        )
-);
-
-System.out.println(
-        "Volume Addition : "
-                + demonstrateAddition(
-                litre,
-                milliLitre,
-                VolumeUnit.LITRE
-        )
-);
-
-System.out.println(
-        "Volume Subtraction : "
-                + demonstrateSubtraction(
-                new Quantity<>(
-                        5.0,
-                        VolumeUnit.LITRE
-                ),
-                new Quantity<>(
-                        500.0,
-                        VolumeUnit.MILLILITRE
-                )
-        )
-);
-
-System.out.println(
-        "Volume Division : "
-                + demonstrateDivision(
-                new Quantity<>(
-                        1000.0,
-                        VolumeUnit.MILLILITRE
-                ),
-                new Quantity<>(
+        QuantityDTO litreDTO =
+                new QuantityDTO(
                         1.0,
-                        VolumeUnit.LITRE
+                        "LITRE",
+                        "Volume"
+                );
+
+        QuantityDTO milliLitreDTO =
+                new QuantityDTO(
+                        1000.0,
+                        "MILLILITRE",
+                        "Volume"
+                );
+
+        System.out.println(
+                "Volume Equality : "
+                        + controller.compare(
+                        litreDTO,
+                        milliLitreDTO
                 )
-        )
-);
-// ==========================
-// TEMPERATURE EXAMPLES (UC14)
-// ==========================
-
-Quantity<TemperatureUnit> celsius =
-        new Quantity<>(
-                100.0,
-                TemperatureUnit.CELSIUS
         );
 
-Quantity<TemperatureUnit> fahrenheit =
-        new Quantity<>(
-                212.0,
-                TemperatureUnit.FAHRENHEIT
+        System.out.println(
+                "Volume Conversion : "
+                        + controller.convert(
+                        litreDTO,
+                        "MILLILITRE"
+                )
         );
 
-Quantity<TemperatureUnit> kelvin =
-        new Quantity<>(
-                373.15,
-                TemperatureUnit.KELVIN
+        System.out.println(
+                "Volume Addition : "
+                        + controller.add(
+                        litreDTO,
+                        milliLitreDTO,
+                        "LITRE"
+                )
         );
 
-System.out.println(
-        "Temperature Equality (Celsius vs Fahrenheit) : "
-                + demonstrateEquality(
-                celsius,
-                fahrenheit
-        )
-);
+        QuantityDTO volume1 =
+                new QuantityDTO(
+                        5.0,
+                        "LITRE",
+                        "Volume"
+                );
 
-System.out.println(
-        "Temperature Equality (Celsius vs Kelvin) : "
-                + demonstrateEquality(
-                celsius,
-                kelvin
-        )
-);
+        QuantityDTO volume2 =
+                new QuantityDTO(
+                        500.0,
+                        "MILLILITRE",
+                        "Volume"
+                );
 
-System.out.println(
-        "Temperature Conversion (Celsius -> Fahrenheit) : "
-                + demonstrateConversion(
-                celsius,
-                TemperatureUnit.FAHRENHEIT
-        )
-);
+        System.out.println(
+                "Volume Subtraction : "
+                        + controller.subtract(
+                        volume1,
+                        volume2,
+                        "LITRE"
+                )
+        );
 
-System.out.println(
-        "Temperature Conversion (Fahrenheit -> Celsius) : "
-                + demonstrateConversion(
-                fahrenheit,
-                TemperatureUnit.CELSIUS
-        )
-);
+        QuantityDTO volume3 =
+                new QuantityDTO(
+                        1000.0,
+                        "MILLILITRE",
+                        "Volume"
+                );
 
-System.out.println(
-        "Temperature Conversion (Kelvin -> Celsius) : "
-                + demonstrateConversion(
-                kelvin,
-                TemperatureUnit.CELSIUS
-        )
-);
+        QuantityDTO volume4 =
+                new QuantityDTO(
+                        1.0,
+                        "LITRE",
+                        "Volume"
+                );
+
+        System.out.println(
+                "Volume Division : "
+                        + controller.divide(
+                        volume3,
+                        volume4
+                )
+        );
+
+        // ==========================
+        // TEMPERATURE EXAMPLES
+        // ==========================
+
+        QuantityDTO celsiusDTO =
+                new QuantityDTO(
+                        100.0,
+                        "CELSIUS",
+                        "Temperature"
+                );
+
+        QuantityDTO fahrenheitDTO =
+                new QuantityDTO(
+                        212.0,
+                        "FAHRENHEIT",
+                        "Temperature"
+                );
+
+        QuantityDTO kelvinDTO =
+                new QuantityDTO(
+                        373.15,
+                        "KELVIN",
+                        "Temperature"
+                );
+
+        System.out.println(
+                "Temperature Equality (Celsius vs Fahrenheit) : "
+                        + controller.compare(
+                        celsiusDTO,
+                        fahrenheitDTO
+                )
+        );
+
+        System.out.println(
+                "Temperature Equality (Celsius vs Kelvin) : "
+                        + controller.compare(
+                        celsiusDTO,
+                        kelvinDTO
+                )
+        );
+
+        System.out.println(
+                "Temperature Conversion (Celsius -> Fahrenheit) : "
+                        + controller.convert(
+                        celsiusDTO,
+                        "FAHRENHEIT"
+                )
+        );
+
+        System.out.println(
+                "Temperature Conversion (Fahrenheit -> Celsius) : "
+                        + controller.convert(
+                        fahrenheitDTO,
+                        "CELSIUS"
+                )
+        );
+
+        System.out.println(
+                "Temperature Conversion (Kelvin -> Celsius) : "
+                        + controller.convert(
+                        kelvinDTO,
+                        "CELSIUS"
+                )
+        );
 
 // ==========================================
 // UC14 NEW
 // Unsupported Arithmetic Demonstration
 // ==========================================
 
-try {
+        try {
 
-    System.out.println(
-            demonstrateAddition(
-                    celsius,
-                    new Quantity<>(
-                            50.0,
-                            TemperatureUnit.CELSIUS
+            System.out.println(
+                    controller.add(
+                            celsiusDTO,
+                            new QuantityDTO(
+                                    50.0,
+                                    "CELSIUS",
+                                    "Temperature"
+                            ),
+                            "CELSIUS"
                     )
-            )
-    );
+            );
 
-} catch (UnsupportedOperationException e) {
+        } catch (Exception e) {
 
-    System.out.println(
-            "Temperature Addition : "
-                    + e.getMessage()
-    );
-}
+            System.out.println(
+                    "Temperature Addition : "
+                            + e.getMessage()
+            );
+        }
 
-try {
+        try {
 
-    System.out.println(
-            demonstrateSubtraction(
-                    celsius,
-                    new Quantity<>(
-                            50.0,
-                            TemperatureUnit.CELSIUS
+            System.out.println(
+                    controller.subtract(
+                            celsiusDTO,
+                            new QuantityDTO(
+                                    50.0,
+                                    "CELSIUS",
+                                    "Temperature"
+                            ),
+                            "CELSIUS"
                     )
-            )
-    );
+            );
 
-} catch (UnsupportedOperationException e) {
+        } catch (Exception e) {
 
-    System.out.println(
-            "Temperature Subtraction : "
-                    + e.getMessage()
-    );
-}
+            System.out.println(
+                    "Temperature Subtraction : "
+                            + e.getMessage()
+            );
+        }
 
-try {
+        try {
 
-    System.out.println(
-            demonstrateDivision(
-                    celsius,
-                    new Quantity<>(
-                            50.0,
-                            TemperatureUnit.CELSIUS
+            System.out.println(
+                    controller.divide(
+                            celsiusDTO,
+                            new QuantityDTO(
+                                    50.0,
+                                    "CELSIUS",
+                                    "Temperature"
+                            )
                     )
-    ));
+            );
 
-} catch (UnsupportedOperationException e) {
+        } catch (Exception e) {
 
-    System.out.println(
-            "Temperature Division : "
-                    + e.getMessage()
-    );
-}
+            System.out.println(
+                    "Temperature Division : "
+                            + e.getMessage()
+            );
+        }
     }
 }

@@ -1,53 +1,52 @@
 package com.apps.quantitymeasurement;
 
-
-
 public interface IMeasurable {
 
     // ==================================================
-    // UC14 NEW
-    // By default every measurable unit supports arithmetic.
-    // TemperatureUnit will override this behavior.
+    // UC14
     // ==================================================
 
     SupportsArithmetic supportsArithmetic = () -> true;
 
-    // ==================================================
-    // Existing mandatory methods
-    // ==================================================
-
-    // Conversion factor relative to base unit
     double getConversionFactor();
 
-    // Convert value to base unit
     double convertToBaseUnit(double value);
 
-    // Convert base unit value to this unit
     double convertFromBaseUnit(double baseValue);
 
-    // Return unit name
     String getUnitName();
 
     // ==================================================
-    // UC14 NEW
-    // Default method to check whether arithmetic
-    // operations are supported.
+    // UC15 NEW
+    // Returns measurement category
+    // Example:
+    // Length
+    // Weight
+    // Volume
+    // Temperature
+    // ==================================================
+
+    String getMeasurementType();
+
+    // ==================================================
+    // UC15 NEW
+    // Returns enum instance from unit name
+    // Example:
+    // "FEET" -> LengthUnit.FEET
+    // ==================================================
+
+    IMeasurable getUnitInstance(String unitName);
+
+    // ==================================================
+    // UC14
     // ==================================================
 
     default boolean supportsArithmetic() {
         return supportsArithmetic.isSupported();
     }
 
-    // ==================================================
-    // UC14 NEW
-    // Default validation method.
-    // Existing measurement categories inherit this
-    // implementation without any changes.
-    // TemperatureUnit overrides this method.
-    // ==================================================
-
     default void validateOperationSupport(String operation) {
-        // Default implementation does nothing.
-        // Length, Weight and Volume support arithmetic.
+        // Length, Weight and Volume inherit this.
+        // Temperature overrides it.
     }
 }

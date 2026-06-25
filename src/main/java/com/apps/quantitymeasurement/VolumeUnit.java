@@ -31,4 +31,18 @@ public enum VolumeUnit implements IMeasurable {
     public String getUnitName() {
         return name();
     }
+
+    // ===========================
+    // UC15 NEW
+    // ===========================
+
+    @Override
+    public String getMeasurementType() {
+        return "Volume";
+    }
+
+    @Override
+    public IMeasurable getUnitInstance(String unitName) {
+        return VolumeUnit.valueOf(unitName.toUpperCase());
+    }
 }

@@ -37,4 +37,18 @@ public enum WeightUnit implements IMeasurable {
     public String getUnitName() {
         return name();
     }
+
+    // ===========================
+    // UC15 NEW
+    // ===========================
+
+    @Override
+    public String getMeasurementType() {
+        return "Weight";
+    }
+
+    @Override
+    public IMeasurable getUnitInstance(String unitName) {
+        return WeightUnit.valueOf(unitName.toUpperCase());
+    }
 }
