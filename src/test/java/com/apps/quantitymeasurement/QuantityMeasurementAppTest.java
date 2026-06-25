@@ -838,9 +838,9 @@ public void volumeTransitiveProperty() {
             new Quantity<>(1000.0,
                     VolumeUnit.MILLILITRE);
 
-    Quantity<VolumeUnit> c =
+    /*Quantity<VolumeUnit> c =
             new Quantity<>(0.264172,
-                    VolumeUnit.GALLON);
+                    VolumeUnit.GALLON);*/
 
     assertEquals(a, b);
 }
