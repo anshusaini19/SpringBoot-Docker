@@ -2,20 +2,28 @@ package com.apps.quantitymeasurement;
 import com.apps.quantitymeasurement.controller.QuantityMeasurementController;
 import com.apps.quantitymeasurement.entity.QuantityDTO;
 import com.apps.quantitymeasurement.repository.IQuantityMeasurementRepository;
-import com.apps.quantitymeasurement.repository.QuantityMeasurementCacheRepository;
+import com.apps.quantitymeasurement.repository.QuantityMeasurementDatabaseRepository;
 import com.apps.quantitymeasurement.service.IQuantityMeasurementService;
 import com.apps.quantitymeasurement.service.QuantityMeasurementServiceImpl;
+import com.apps.quantitymeasurement.util.DatabaseInitializer;
 
 public class QuantityMeasurementApp {
     public static void main(String[] args) {
+        DatabaseInitializer.initialize();
         IQuantityMeasurementRepository repository =
-                QuantityMeasurementCacheRepository.getInstance();
+                new QuantityMeasurementDatabaseRepository();
 
         IQuantityMeasurementService service =
                 new QuantityMeasurementServiceImpl(repository);
 
         QuantityMeasurementController controller =
                 new QuantityMeasurementController(service);
+
+        System.out.println(
+                "Total Records : " +
+                        repository.getTotalCount()
+        );
+
 
         // ==========================
         // LENGTH EXAMPLES
@@ -422,5 +430,10 @@ public class QuantityMeasurementApp {
                             + e.getMessage()
             );
         }
+        System.out.println("Before Delete : " + repository.getTotalCount());
+
+        repository.deleteAll();
+
+        System.out.println("After Delete : " + repository.getTotalCount());
     }
 }

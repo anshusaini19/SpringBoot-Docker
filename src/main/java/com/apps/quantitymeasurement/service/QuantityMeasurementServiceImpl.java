@@ -3,11 +3,11 @@ package com.apps.quantitymeasurement.service;
 import com.apps.quantitymeasurement.entity.QuantityDTO;
 import com.apps.quantitymeasurement.exception.QuantityMeasurementException;
 import com.apps.quantitymeasurement.repository.IQuantityMeasurementRepository;
-import com.apps.quantitymeasurement.LengthUnit;
+import com.apps.quantitymeasurement.enums.LengthUnit;
 import com.apps.quantitymeasurement.Quantity;
-import com.apps.quantitymeasurement.TemperatureUnit;
-import com.apps.quantitymeasurement.VolumeUnit;
-import com.apps.quantitymeasurement.WeightUnit;
+import com.apps.quantitymeasurement.enums.TemperatureUnit;
+import com.apps.quantitymeasurement.enums.VolumeUnit;
+import com.apps.quantitymeasurement.enums.WeightUnit;
 import com.apps.quantitymeasurement.IMeasurable;
 import com.apps.quantitymeasurement.entity.QuantityMeasurementEntity;
 

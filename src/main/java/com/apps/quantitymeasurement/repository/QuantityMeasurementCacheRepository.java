@@ -62,4 +62,17 @@ public class QuantityMeasurementCacheRepository
         return measurements;
 
     }
+    @Override
+    public int getTotalCount() {
+
+        return measurements.size();
+
+    }
+    @Override
+    public void deleteAll() {
+
+        measurements.clear();
+
+    }
+
 }

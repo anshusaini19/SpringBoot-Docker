@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82fe1d55-dac2-45ac-a0d3-24fad6f5e9d8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/IMeasurable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/IMeasurable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/LengthUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/LengthUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/LengthUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/enums/LengthUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/Quantity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/Quantity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/QuantityMeasurementApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/QuantityMeasurementApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/TemperatureUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/TemperatureUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/VolumeUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/VolumeUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/WeightUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/WeightUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/TemperatureUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/enums/TemperatureUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/VolumeUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/enums/VolumeUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/WeightUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/enums/WeightUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/repository/IQuantityMeasurementRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/repository/IQuantityMeasurementRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/repository/QuantityMeasurementCacheRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/repository/QuantityMeasurementCacheRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/service/QuantityMeasurementServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/apps/quantitymeasurement/service/QuantityMeasurementServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/apps/quantitymeasurement/QuantityMeasurementAppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/apps/quantitymeasurement/QuantityMeasurementAppTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,24 +45,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.QuantityMeasurementApp.executor": "Run",
-    "Application.QuantityMeasurementApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/UC15-NTierArchitecture",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/QuantityMeasurementApp"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.QuantityMeasurementApp.executor&quot;: &quot;Run&quot;,
+    &quot;Application.QuantityMeasurementApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/UC16-DatabaseIntegration&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/QuantityMeasurementApp&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.apps.quantitymeasurement.enums" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.QuantityMeasurementApp">
     <configuration name="QuantityMeasurementApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.apps.quantitymeasurement.QuantityMeasurementApp" />
       <module name="QuantityMeasurementApp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.apps.quantitymeasurement.*" />
+          <option name="PATTERN" value="com.apps.quantitymeasurement.enums.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>

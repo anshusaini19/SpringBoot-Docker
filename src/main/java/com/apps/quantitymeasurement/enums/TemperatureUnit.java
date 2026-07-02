@@ -1,4 +1,7 @@
-package com.apps.quantitymeasurement;
+package com.apps.quantitymeasurement.enums;
+
+import com.apps.quantitymeasurement.IMeasurable;
+import com.apps.quantitymeasurement.SupportsArithmetic;
 
 public enum TemperatureUnit implements IMeasurable {
 

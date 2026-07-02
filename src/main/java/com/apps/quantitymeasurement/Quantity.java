@@ -1,5 +1,7 @@
 package com.apps.quantitymeasurement;
 
+import com.apps.quantitymeasurement.enums.TemperatureUnit;
+
 import java.util.Objects;
 import java.util.function.DoubleBinaryOperator;
 
