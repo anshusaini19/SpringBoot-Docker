@@ -5,3 +5,12 @@ node_modules/
 .env
 .vscode/
 *.jar
+
+
+
+.idea/
+*.iml
+
+data/
+*.mv.db
+*.trace.db

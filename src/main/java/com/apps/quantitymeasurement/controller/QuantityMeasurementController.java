@@ -1,52 +1,114 @@
 package com.apps.quantitymeasurement.controller;
 
-import com.apps.quantitymeasurement.entity.QuantityDTO;
+import com.apps.quantitymeasurement.model.QuantityDTO;
+import com.apps.quantitymeasurement.model.QuantityMeasurementDTO;
 import com.apps.quantitymeasurement.service.IQuantityMeasurementService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/quantity")
 public class QuantityMeasurementController {
 
-    private final IQuantityMeasurementService service;
+    @Autowired
+    private IQuantityMeasurementService service;
 
-    public QuantityMeasurementController(
-            IQuantityMeasurementService service) {
+    @PostMapping("/compare")
+    public ResponseEntity<QuantityMeasurementDTO> compare(
+            @Valid @RequestBody QuantityDTO first,
+            @RequestParam String secondValue,
+            @RequestParam String secondUnit,
+            @RequestParam String secondMeasurementType) {
 
-        this.service = service;
+        QuantityDTO second = new QuantityDTO(
+                Double.parseDouble(secondValue),
+                secondUnit,
+                secondMeasurementType
+        );
+
+        return ResponseEntity.ok(
+                service.compare(first, second)
+        );
     }
 
-    public boolean compare(
-            QuantityDTO first,
-            QuantityDTO second) {
+    @PostMapping("/convert")
+    public ResponseEntity<QuantityMeasurementDTO> convert(
+            @Valid @RequestBody QuantityDTO quantity,
+            @RequestParam String targetUnit) {
 
-        return service.compare(first, second);
+        QuantityDTO target = new QuantityDTO();
+        target.setUnit(targetUnit);
+        target.setMeasurementType(quantity.getMeasurementType());
+
+        return ResponseEntity.ok(
+                service.convert(quantity, target)
+        );
     }
 
-    public QuantityDTO convert(
-            QuantityDTO quantity,
-            String targetUnit) {
+    @PostMapping("/add")
+    public ResponseEntity<QuantityMeasurementDTO> add(
+            @Valid @RequestBody QuantityDTO first,
+            @RequestParam String secondValue,
+            @RequestParam String secondUnit,
+            @RequestParam String secondMeasurementType,
+            @RequestParam String targetUnit) {
 
-        return service.convert(quantity, targetUnit);
+        QuantityDTO second = new QuantityDTO(
+                Double.parseDouble(secondValue),
+                secondUnit,
+                secondMeasurementType
+        );
+
+        QuantityDTO target = new QuantityDTO();
+        target.setUnit(targetUnit);
+        target.setMeasurementType(first.getMeasurementType());
+
+        return ResponseEntity.ok(
+                service.add(first, second, target)
+        );
     }
 
-    public QuantityDTO add(
-            QuantityDTO first,
-            QuantityDTO second,
-            String targetUnit) {
+    @PostMapping("/subtract")
+    public ResponseEntity<QuantityMeasurementDTO> subtract(
+            @Valid @RequestBody QuantityDTO first,
+            @RequestParam String secondValue,
+            @RequestParam String secondUnit,
+            @RequestParam String secondMeasurementType,
+            @RequestParam String targetUnit) {
 
-        return service.add(first, second, targetUnit);
+        QuantityDTO second = new QuantityDTO(
+                Double.parseDouble(secondValue),
+                secondUnit,
+                secondMeasurementType
+        );
+
+        QuantityDTO target = new QuantityDTO();
+        target.setUnit(targetUnit);
+        target.setMeasurementType(first.getMeasurementType());
+
+        return ResponseEntity.ok(
+                service.subtract(first, second, target)
+        );
     }
 
-    public QuantityDTO subtract(
-            QuantityDTO first,
-            QuantityDTO second,
-            String targetUnit) {
+    @PostMapping("/divide")
+    public ResponseEntity<QuantityMeasurementDTO> divide(
+            @Valid @RequestBody QuantityDTO first,
+            @RequestParam String secondValue,
+            @RequestParam String secondUnit,
+            @RequestParam String secondMeasurementType) {
 
-        return service.subtract(first, second, targetUnit);
-    }
+        QuantityDTO second = new QuantityDTO(
+                Double.parseDouble(secondValue),
+                secondUnit,
+                secondMeasurementType
+        );
 
-    public double divide(
-            QuantityDTO first,
-            QuantityDTO second) {
-
-        return service.divide(first, second);
+        return ResponseEntity.ok(
+                service.divide(first, second)
+        );
     }
 }

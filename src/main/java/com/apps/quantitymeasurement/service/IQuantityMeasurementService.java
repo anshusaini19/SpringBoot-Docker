@@ -1,33 +1,54 @@
 package com.apps.quantitymeasurement.service;
 
-import com.apps.quantitymeasurement.entity.QuantityDTO;
+import java.util.List;
+
+import com.apps.quantitymeasurement.model.QuantityDTO;
+import com.apps.quantitymeasurement.model.QuantityMeasurementDTO;
 
 public interface IQuantityMeasurementService {
 
-    boolean compare(
-            QuantityDTO first,
-            QuantityDTO second
+    QuantityMeasurementDTO compare(
+            QuantityDTO thisQuantityDTO,
+            QuantityDTO thatQuantityDTO
     );
 
-    QuantityDTO convert(
-            QuantityDTO quantity,
-            String targetUnit
+    QuantityMeasurementDTO convert(
+            QuantityDTO thisQuantityDTO,
+            QuantityDTO thatQuantityDTO
     );
 
-    QuantityDTO add(
-            QuantityDTO first,
-            QuantityDTO second,
-            String targetUnit
+    QuantityMeasurementDTO add(
+            QuantityDTO thisQuantityDTO,
+            QuantityDTO thatQuantityDTO
     );
 
-    QuantityDTO subtract(
-            QuantityDTO first,
-            QuantityDTO second,
-            String targetUnit
+    QuantityMeasurementDTO add(
+            QuantityDTO thisQuantityDTO,
+            QuantityDTO thatQuantityDTO,
+            QuantityDTO targetUnitDTO
     );
 
-    double divide(
-            QuantityDTO first,
-            QuantityDTO second
+    QuantityMeasurementDTO subtract(
+            QuantityDTO thisQuantityDTO,
+            QuantityDTO thatQuantityDTO
     );
+
+    QuantityMeasurementDTO subtract(
+            QuantityDTO thisQuantityDTO,
+            QuantityDTO thatQuantityDTO,
+            QuantityDTO targetUnitDTO
+    );
+
+    QuantityMeasurementDTO divide(
+            QuantityDTO thisQuantityDTO,
+            QuantityDTO thatQuantityDTO
+    );
+
+    List<QuantityMeasurementDTO> getOperationHistory(String operation);
+
+    List<QuantityMeasurementDTO> getMeasurementsByType(String type);
+
+    long getOperationCount(String operation);
+
+    List<QuantityMeasurementDTO> getErrorHistory();
 }
