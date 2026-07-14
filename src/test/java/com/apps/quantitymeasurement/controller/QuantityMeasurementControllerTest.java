@@ -40,7 +40,7 @@ class QuantityMeasurementControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json)
                 )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.resultString").value("Equal"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/oauth2/authorization/google"));
     }
 }
