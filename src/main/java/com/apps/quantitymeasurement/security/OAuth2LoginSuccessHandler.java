@@ -30,13 +30,9 @@ public class OAuth2LoginSuccessHandler
                 (OAuth2User) authentication.getPrincipal();
 
         String email = user.getAttribute("email");
-
         String token = jwtUtil.generateToken(email);
 
-        response.setContentType("application/json");
 
-        response.getWriter().write(
-                "{\"token\":\"" + token + "\"}"
-        );
+        response.sendRedirect("/index.html?token=" + token);
     }
 }
