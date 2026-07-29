@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import java.util.List;
+import com.apps.quantitymeasurement.model.QuantityMeasurementEntity;
+import com.apps.quantitymeasurement.repository.QuantityMeasurementRepository;
 
 @RestController
 @RequestMapping("/api/quantity")
@@ -15,6 +18,8 @@ public class QuantityMeasurementController {
 
     @Autowired
     private IQuantityMeasurementService service;
+    @Autowired
+    private QuantityMeasurementRepository repository;
 
     @PostMapping("/compare")
     public ResponseEntity<QuantityMeasurementDTO> compare(
@@ -110,5 +115,58 @@ public class QuantityMeasurementController {
         return ResponseEntity.ok(
                 service.divide(first, second)
         );
+    }
+    @GetMapping("/history/all")
+    public ResponseEntity<List<QuantityMeasurementDTO>> getAllHistory() {
+
+        return ResponseEntity.ok(
+                QuantityMeasurementDTO.fromList(
+                        repository.findAll()
+                )
+        );
+    }
+
+    @GetMapping("/history/operation/{operation}")
+    public ResponseEntity<List<QuantityMeasurementDTO>> getHistoryByOperation(
+            @PathVariable String operation) {
+
+        return ResponseEntity.ok(
+                service.getOperationHistory(operation)
+        );
+    }
+
+    @GetMapping("/history/type/{measurementType}")
+    public ResponseEntity<List<QuantityMeasurementDTO>> getHistoryByType(
+            @PathVariable String measurementType) {
+
+        return ResponseEntity.ok(
+                service.getMeasurementsByType(measurementType)
+        );
+    }
+
+    @GetMapping("/history/count/{operation}")
+    public ResponseEntity<Long> getOperationCount(
+            @PathVariable String operation) {
+
+        return ResponseEntity.ok(
+                service.getOperationCount(operation)
+        );
+    }
+
+    @GetMapping("/history/errors")
+    public ResponseEntity<List<QuantityMeasurementDTO>> getErrorHistory() {
+
+        return ResponseEntity.ok(
+                service.getErrorHistory()
+        );
+    }
+
+    @DeleteMapping("/history/{id}")
+    public ResponseEntity<Void> deleteHistory(
+            @PathVariable Long id) {
+
+        repository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
